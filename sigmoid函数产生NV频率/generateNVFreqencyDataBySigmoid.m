@@ -35,7 +35,7 @@ figure(4)
 depthQuantIndex = nvDepth(nvQuant);
 depthMark = depth(depthQuantIndex);
 hp = diff(depthMark);
-save('hp.mat','hp');
+save('hp.mat', 'hp');
 stem(depth(depthQuantIndex), nvQuant(depthQuantIndex), 'LineStyle', '-', 'Color', 'r', 'LineWidth', 1.5);
 
 % 产生盐水密度分布

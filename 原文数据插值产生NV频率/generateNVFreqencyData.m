@@ -6,7 +6,7 @@ load('data_1_SaltWaterDensity.mat');
 
 [density, depth] = saltWaterDensityInterpolation(data_1_SaltWaterDensity);
 
-ans = diff(density);
+diff(density);
 
 figure(1);
 plot(data_1_SaltWaterDensity(:, 1), data_1_SaltWaterDensity(:, 2), 'o', density, depth, '-');
