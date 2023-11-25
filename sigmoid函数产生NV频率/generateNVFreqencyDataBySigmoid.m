@@ -35,8 +35,13 @@ figure(4)
 depthQuantIndex = nvDepth(nvQuant);
 depthMark = depth(depthQuantIndex);
 hp = diff(depthMark);
+Np = nvQuant(depthQuantIndex);
 save('hp.mat', 'hp');
+% writematrix(hp, 'hp.csv');
+save('Np.mat', 'Np');
 stem(depth(depthQuantIndex), nvQuant(depthQuantIndex), 'LineStyle', '-', 'Color', 'r', 'LineWidth', 1.5);
+xlabel('深度');
+ylabel('NV频率');
 
 % 产生盐水密度分布
 function [density] = densityDistribution(depth)
@@ -89,10 +94,10 @@ function [nvQuant] = nvQuantization(nvFreq)
 
 end
 
-% 在NV频率量化后，记录NV频率发生变化的深度
+% 在NV频率量化后，记录NV频率恰发生变化的深度(包括起始深度和结束深度)，并返回索引。
 function [depthQuantIndex] = nvDepth(nvQuant)
     % 记录NV频率发生变化的深度
-    depthQuantIndex = [];
+    depthQuantIndex = [1];
 
     for i = 2:length(nvQuant)
 
@@ -101,5 +106,6 @@ function [depthQuantIndex] = nvDepth(nvQuant)
         end
 
     end
+    depthQuantIndex = [depthQuantIndex, length(nvQuant)];
 
 end
