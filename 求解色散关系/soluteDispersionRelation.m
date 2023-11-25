@@ -9,12 +9,12 @@ syms kp;
 syms omega;
 %  NV频率
 
-f12Index = 1;
+kpIndex = 1;
 omegaIndex = 1;
 
-for omega = 0.01:0.01:1.8
+for kp = 0.001:0.001:100
 
-    for kp = 0.0001:0.0001:100
+    for omega = 0.01:0.01:1.8
         k3p = kp .^ 2 .* abs(Np .^ 2 / omega .^ 2 - 1);
         mp = k3p * 1j;
 
@@ -40,10 +40,10 @@ for omega = 0.01:0.01:1.8
             A = [a11(index, 1), a12(index, 1); a21(index, 1), a22(index, 1)] * A;
         end
 
-        f12(f12Index) = abs(A(1, 2));
-        f12Index = f12Index + 1;
-    end
+        f12(kpIndex,omegaIndex) = abs(A(1, 2));
+        omegaIndex = omegaIndex + 1;
 
-    wk(omegaIndex, :) = mink(f12, 15);
-    omegaIndex = omegaIndex + 1;
+    end
+    kpIndex = kpIndex + 1;
+    omegaIndex = 1;
 end
