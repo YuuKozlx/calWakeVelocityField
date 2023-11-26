@@ -12,7 +12,7 @@ syms omega;
 kpIndex = 1;
 omegaIndex = 1;
 
-for kp = 0.005:0.005:100
+for kp = 5:5:100
     % kp = 80;
     for omega = 0.00001:0.00001:1.6
     % for omega = 0.92396:0.00000001:0.92397
