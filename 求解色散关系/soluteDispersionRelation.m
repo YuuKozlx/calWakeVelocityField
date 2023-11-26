@@ -15,7 +15,7 @@ omegaIndex = 1;
 for kp = 0.001:0.001:100
 
     for omega = 0.01:0.01:1.8
-        k3p = kp .^ 2 .* abs(Np .^ 2 / omega .^ 2 - 1);
+        k3p = sqrt(kp .^ 2 .* (Np .^ 2 / omega .^ 2 - 1));
         mp = k3p * 1j;
 
         for index = 1:length(hp)
@@ -47,3 +47,5 @@ for kp = 0.001:0.001:100
     kpIndex = kpIndex + 1;
     omegaIndex = 1;
 end
+
+
