@@ -1,6 +1,6 @@
 w_index = find_sign_change(f12);
 w = 0.00001 * w_index;
-k = 0.005:2.5:100.005;
+k = 5:5:100;
 w = fliplr(w);
 figure(1)
 p = plot(k, w(:, 1:3));
@@ -32,6 +32,8 @@ grid on;
 set(gca, 'FontSize', 14, 'XMinorTick', 'on', 'YMinorTick', 'on');
 set(gcf, 'Position', [100 100 500 400]);
 
+
+load w_test.mat
 function result_indices = find_sign_change(A)
 
     % 初始化异号点的位置矩阵
