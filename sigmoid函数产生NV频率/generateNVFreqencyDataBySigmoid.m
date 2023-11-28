@@ -70,6 +70,7 @@ function [nvQuant] = nvQuantization(nvFreq)
     initial_step_size = 0.4;
     % 量化的阈值
     threshold = [0.01, 0.03, 0.05, 0.07, 0.09];
+
     nvQuant = zeros(size(nvFreq));
     % 进行多级自适应量化
     for i = 2:length(nvFreq)
@@ -91,13 +92,15 @@ function [nvQuant] = nvQuantization(nvFreq)
         % 量化当前深度的NV频率
         nvQuant(i) = round(nvFreq(i) / step_size) * step_size;
     end
+    
+    nvQuant(nvQuant == 0) = 0.01;
 
 end
 
 % 在NV频率量化后，记录NV频率恰发生变化的深度(包括起始深度和结束深度)，并返回索引。
 function [depthQuantIndex] = nvDepth(nvQuant)
     % 记录NV频率发生变化的深度
-    depthQuantIndex = [1];
+    depthQuantIndex = 1;
 
     for i = 2:length(nvQuant)
 
