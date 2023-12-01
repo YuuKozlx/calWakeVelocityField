@@ -27,7 +27,7 @@ w_repmat = repmat(w, length(NNp), 1);
 mpIsRe = (w_repmat > NNp);
 mpIsIm = 1 - mpIsRe;
 
-f12 = zeros(20000, length(w));
+f12 = zeros(200, length(w));
 
 
 tStart = tic;

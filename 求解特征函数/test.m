@@ -5,8 +5,8 @@ load '..\sigmoid函数产生NV频率\Np.mat'
 load cp_k.mat
 
 i = 1;
-for guess = -0.0001689
-    y_end(i, :) = shootingMethod(0, guess);
+for guess = 0.1
+    y_end(i, :) = shootingMethod(40, guess);
     i = i + 1;
 end
 
@@ -16,7 +16,7 @@ function y_end = shootingMethod(in_k, in_yp_guess)
 % function [x,y] = shootingMethod(in_k,in_yp_guess)
 k = in_k;
 yp_guess = in_yp_guess;
-cp = 0.0458754333383385;
+cp = 0.0325676709213948;
 % 定义变系数函数
 N = @(x) Nv(x);
 k3 = @(x) N(x)^2 / cp^2 - k^2;
