@@ -21,13 +21,13 @@ temp_load = load('../sigmoid函数产生NV频率/Np.mat'); % 量化后的NV频�
 Np = temp_load.Np;
 NNp = Np(1:15);
 NNp = NNp';
-w = 0.000005:0.00005:1.6;
+w = 0.00001:0.0002:1.60001;
 w_repmat = repmat(w, length(NNp), 1);
 
 mpIsRe = (w_repmat > NNp);
 mpIsIm = 1 - mpIsRe;
 
-f12 = zeros(2000, length(w));
+f12 = zeros(20000, length(w));
 
 
 tStart = tic;
@@ -35,7 +35,7 @@ tStart = tic;
 kpindex = 1;
 max_kp = 100;
 
-for kp = 0.005:0.05:max_kp
+for kp = 0.5:0.5:max_kp
 
     omega = w;
 
@@ -72,3 +72,4 @@ end
 
 clear a11_mpIsRe a11_mpIsIm a12_mpIsRe a12_mpIsIm a21_mpIsRe a21_mpIsIm a22_mpIsRe a22_mpIsIm apJudge
 toc(tStart)
+
