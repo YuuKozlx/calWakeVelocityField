@@ -2,12 +2,13 @@ clc;
 clear;
 load '..\sigmoid函数产生NV频率\hp.mat'
 load '..\sigmoid函数产生NV频率\Np.mat'
-load cp_k.mat
+load ..\求解色散关系\'色散关系 ω_k 结果'\cp.mat
 Np = Np';
 hp = hp';
 
-cp0 = cp(1, 2);
-k = 0;
+k_index = 41;
+cp0 = cp(k_index, 3);
+k = (k_index-1)*0.5;
 Nv = Np(1:15);
 alpha = sqrt(abs(Nv .^ 2 / cp0 .^ 2 - k ^ 2));
 
@@ -23,7 +24,7 @@ for i = 1:length(hp)
 
 end
 
-C = 0.001 * 1i;
+C = -1;
 
 s = eye(2) * [C; -C];
 
@@ -43,6 +44,10 @@ ApBp = transpose(ApBp);
 
 z = (0:0.001:0.8)';
 y = phi(z, ApBp, r);
+
+figure(1)
+plot(y,z);
+set(gca, 'YDir', 'reverse');
 
 % 0.001000 + 0.000000i	0.001000 + 0.000000i
 % 0.001000 + 0.000301i	0.001000 - 0.000301i
@@ -107,7 +112,7 @@ function y = phi(z, ApBp, r)
     condition14 = (z >= 0.325 & z < 0.362);
     y(condition14) = Ap(14) * exp(r(14) * (z(condition14) - 0.325)) + Bp(14) * exp(-r(14) * (z(condition14) - 0.325));
 
-    condition15 = (z >= 0.362 & z < 0.800);
+    condition15 = (z >= 0.362 & z <= 0.800);
     y(condition15) = Ap(15) * exp(r(15) * (z(condition15) - 0.362)) + Bp(15) * exp(-r(15) * (z(condition15) - 0.362));
 
 end

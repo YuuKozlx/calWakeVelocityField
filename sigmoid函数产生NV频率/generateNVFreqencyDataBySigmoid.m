@@ -70,7 +70,6 @@ function [nvQuant] = nvQuantization(nvFreq)
     initial_step_size = 0.4;
     % 量化的阈值
     threshold = [0.01, 0.03, 0.05, 0.07, 0.09];
-
     nvQuant = zeros(size(nvFreq));
     % 进行多级自适应量化
     for i = 2:length(nvFreq)
@@ -93,7 +92,7 @@ function [nvQuant] = nvQuantization(nvFreq)
         nvQuant(i) = round(nvFreq(i) / step_size) * step_size;
     end
     
-    nvQuant(nvQuant == 0) = 0.01;
+    nvQuant(nvQuant == 0) = 0.00005;
 
 end
 

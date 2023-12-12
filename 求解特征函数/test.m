@@ -2,11 +2,11 @@ clc;
 clear;
 load '..\sigmoid函数产生NV频率\hp.mat'
 load '..\sigmoid函数产生NV频率\Np.mat'
-load cp_k.mat
+load ..\求解色散关系\'色散关系 ω_k 结果'\cp.mat
 
 i = 1;
-for guess = 0.1
-    y_end(i, :) = shootingMethod(40, guess);
+for guess = 0.001
+    y_end(i, :) = shootingMethod(20, guess);
     i = i + 1;
 end
 
@@ -16,7 +16,7 @@ function y_end = shootingMethod(in_k, in_yp_guess)
 % function [x,y] = shootingMethod(in_k,in_yp_guess)
 k = in_k;
 yp_guess = in_yp_guess;
-cp = 0.0325676709213948;
+cp = 0.0202303900200414;
 % 定义变系数函数
 N = @(x) Nv(x);
 k3 = @(x) N(x)^2 / cp^2 - k^2;
@@ -32,7 +32,7 @@ yN = 0; % 终止值
 
 % 设置求解区域
 a_val = 0;
-b_val = 0.8;
+b_val = 0.5;
 
 % 设置步长和初始猜测
 h = 0.05;
