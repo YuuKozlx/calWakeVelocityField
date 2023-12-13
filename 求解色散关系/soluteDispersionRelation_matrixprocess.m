@@ -14,12 +14,12 @@ addpath(genpath('../mtimesx'))
 clc;
 clear;
 format long;
-temp_load = load('../sigmoid函数产生NV频率/hp.mat'); % 量化后的NV频率数据对应的深度，对应于论文中的hp
+temp_load = load('../函数产生NV频率/hp.mat'); % 量化后的NV频率数据对应的深度，对应于论文中的hp
 hp = temp_load.hp;
 hp = hp';
-temp_load = load('../sigmoid函数产生NV频率/Np.mat'); % 量化后的NV频率数据对应的Np，对应于论文中的Np
+temp_load = load('../函数产生NV频率/Np.mat'); % 量化后的NV频率数据对应的Np，对应于论文中的Np
 Np = temp_load.Np;
-NNp = Np(1:15);
+NNp = Np(1:end-1);
 NNp = NNp';
 w = 0.00001:0.0002:1.60001;
 w_repmat = repmat(w, length(NNp), 1);
@@ -27,13 +27,13 @@ w_repmat = repmat(w, length(NNp), 1);
 mpIsRe = (w_repmat > NNp);
 mpIsIm = 1 - mpIsRe;
 
-f12 = zeros(200, length(w));
+f12 = zeros(60, length(w));
 
 
 tStart = tic;
 
 kpindex = 1;
-max_kp = 100;
+max_kp = 30;
 
 for kp = 0.5:0.5:max_kp
 
@@ -53,7 +53,7 @@ for kp = 0.5:0.5:max_kp
     F_temp_permuted = permute(F_temp, [3, 4, 1, 2]);
     F = F_temp_permuted(:, :, 1, :);
 
-    for j = 2:15
+    for j = 2:length(NNp)
         F = mtimesx(F_temp_permuted(:, :, j, :), F);
     end
 

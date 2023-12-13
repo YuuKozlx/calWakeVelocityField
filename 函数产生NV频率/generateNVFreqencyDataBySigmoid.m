@@ -45,69 +45,73 @@ ylabel('NV频率');
 
 % 产生盐水密度分布
 function [density] = densityDistribution(depth)
-    % 使用sigmoid函数产生密度分布
-    % sigmoid(x) = 1 / (1 + exp(-x))
-    density = 22.5 ./ (1 + exp(-50 * (depth - 0.25))) + 1000;
+% 使用sigmoid函数产生密度分布
+% sigmoid(x) = 1 / (1 + exp(-x))
+k = 20;
+z0 = 0.4;
+density = 22.5 ./ (1 + exp(-k*(depth - z0))) + 1000;
 end
 
 % 计算盐水密度分布的NV频率和深度的关系
 % 浮力频率计算公式：nv = sqrt(g * rho0'/ rho0);
 function [nv] = nvFrequency(depth, density)
-    % 使用sigmoid函数计算NV频率
-    % sigmoid函数的导数为
-    % sigmoid'(x) = sigmoid(x) * (1 - sigmoid(x))
-    z = depth;
-    % 密度分布的导数
-    densityDerivative = (1125 * exp(-50 * (z - 0.25))) ./ (exp(-50 * (z - 0.25)) + 1) .^ 2;
+% 使用sigmoid函数计算NV频率
+% sigmoid函数的导数为
+% sigmoid'(x) = sigmoid(x) * (1 - sigmoid(x))
+z = depth;
+% 密度分布的导数
+% densityDerivative = (1125 * exp(-10 * (z - 0.25))) ./ (exp(-10 * (z - 0.25)) + 1) .^ 2;
+k = 20;
+z0 = 0.4;
+densityDerivative = 22.5 * k .* exp(-k.*(z - z0)) ./ (1 + exp(-k.*(z - z0))).^2;
 
-    nv = sqrt(9.8 * densityDerivative ./ density);
+nv = sqrt(9.8*densityDerivative./density);
 end
 
 % NV频率的自适应量化
 function [nvQuant] = nvQuantization(nvFreq)
-    % 根据多级阈值进行自适应量化
-    % 深度步长
-    initial_step_size = 0.4;
-    % 量化的阈值
-    threshold = [0.01, 0.03, 0.05, 0.07, 0.09];
-    nvQuant = zeros(size(nvFreq));
-    % 进行多级自适应量化
-    for i = 2:length(nvFreq)
-        % 计算当前深度的量化值
-        delta = abs(nvFreq(i) - nvFreq(i - 1));
+% 根据多级阈值进行自适应量化
+% 深度步长
+initial_step_size = 0.2;
+% 量化的阈值
+threshold = [0.005, 0.01, 0.02, 0.03, 0.04]*(max(nvFreq)-min(nvFreq));
+nvQuant = zeros(size(nvFreq));
+% 进行多级自适应量化
+for i = 2:length(nvFreq)
+    % 计算当前深度的量化值
+    delta = abs(nvFreq(i)-nvFreq(i - 1));
 
-        % 根据插值选择量化阈值和步长
-        % 判断当前深度的NV频率是否超过阈值
-        for j = 1:length(threshold)
+    % 根据插值选择量化阈值和步长
+    % 判断当前深度的NV频率是否超过阈值
+    for j = 1:length(threshold)
 
-            if delta < threshold(j)
-                % 选择当前阈值和步长
-                step_size = initial_step_size / (2 ^ (j - 1));
-                break;
-            end
-
+        if delta < threshold(j)
+            % 选择当前阈值和步长
+            step_size = initial_step_size / (2^(j - 1));
+            break;
         end
 
-        % 量化当前深度的NV频率
-        nvQuant(i) = round(nvFreq(i) / step_size) * step_size;
     end
-    
-    nvQuant(nvQuant == 0) = 0.00005;
+
+    % 量化当前深度的NV频率
+    nvQuant(i) = round(nvFreq(i)/step_size) * step_size;
+end
 
 end
 
 % 在NV频率量化后，记录NV频率恰发生变化的深度(包括起始深度和结束深度)，并返回索引。
 function [depthQuantIndex] = nvDepth(nvQuant)
-    % 记录NV频率发生变化的深度
-    depthQuantIndex = 1;
+% 记录NV频率发生变化的深度
+depthQuantIndex = 1;
 
-    for i = 2:length(nvQuant)
+for i = 2:length(nvQuant)
 
-        if nvQuant(i) ~= nvQuant(i - 1)
-            depthQuantIndex = [depthQuantIndex, i];
-        end
-
+    if nvQuant(i) ~= nvQuant(i - 1)
+        depthQuantIndex = [depthQuantIndex, i];
     end
-    depthQuantIndex = [depthQuantIndex, length(nvQuant)];
+
+end
+
+depthQuantIndex = [depthQuantIndex, length(nvQuant)];
 
 end

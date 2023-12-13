@@ -1,7 +1,7 @@
 clc;
 clear;
-load '..\sigmoid函数产生NV频率\hp.mat'
-load '..\sigmoid函数产生NV频率\Np.mat'
+load '..\函数产生NV频率\hp.mat'
+load '..\函数产生NV频率\Np.mat'
 load ..\求解色散关系\'色散关系 ω_k 结果'\cp.mat
 Np = Np';
 hp = hp';
@@ -13,7 +13,7 @@ k = (k_index-1)*0.5;
 % 定义边界条件
 % syms alpha;
 % syms beta;
-alpha = 0;
+alpha = -89068481037.1711;
 beta = 0;
 % 定义求解区域
 a_val = 0;
@@ -49,7 +49,7 @@ b = [alpha;zeros(Nz - 4, 1);beta];
 det(C);
 
 y = linsolve(C, b);
-figure(1)
+figure(2)
 plot(y,zz);
 set(gca, 'YDir', 'reverse');
 

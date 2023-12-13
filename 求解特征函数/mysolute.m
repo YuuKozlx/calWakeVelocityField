@@ -6,8 +6,8 @@ load ..\求解色散关系\'色散关系 ω_k 结果'\cp.mat
 Np = Np';
 hp = hp';
 
-k_index = 41;
-cp0 = cp(k_index, 3);
+k_index = 1;
+cp0 = cp(k_index, 2);
 k = (k_index-1)*0.5;
 Nv = Np(1:15);
 alpha = sqrt(abs(Nv .^ 2 / cp0 .^ 2 - k ^ 2));
