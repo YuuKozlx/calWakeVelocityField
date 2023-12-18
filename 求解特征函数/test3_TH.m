@@ -1,14 +1,15 @@
-clc;
-clear;
+% clc;
+% clear;
 load '..\函数产生NV频率\hp.mat'
 load '..\函数产生NV频率\Np.mat'
 load '..\求解色散关系\色散关系 ω_k 结果\cp.mat'
 Np = Np';
 hp = hp';
 
-k_index = 61;
-cp0 = cp(k_index, 1);
-k = (k_index - 1) * 0.5;
+% k_index = 1;
+% mode = 1;
+cp0 = cp(k_index, mode+1);
+k = k_index * 1;
 Np = Np(1:end-1);
 
 alpha = sqrt(abs(Np.^2/cp0.^2-k^2));
@@ -36,7 +37,8 @@ end
 
 syms An;
 syms z;
-q = 0.001;
+q = q_end;
+% q = 0.001;
 
 if imag(mp(end)) == 0
     Bn = @(An) -An * exp(2*mp(end)*hp(end));
@@ -52,13 +54,15 @@ elseif imag(mp(end)) ~= 0
     dy{length(Np), 1} = @(An, z) rp(end) .* An .* cos(rp(end).*z) - rp(end) .* Bn(An) .* sin(rp(end).*z);
 end
 
-i = 1;
 
-for z = 0.001:0.001:0.438
-    phi(i) = y{length(Np), 1}(1, z);
-    dphi(i) = dy{length(Np), 1}(1, z);
+i = 1;
+for z = 0:0.001:0.096
+    phi(i) = y{length(Np), 1}(q, z);
+    dphi(i) = dy{length(Np), 1}(q, z);
     i = i + 1;
 end
+
+
 
 for i = length(Np) - 1:-1:1
 
@@ -82,41 +86,26 @@ for i = length(Np) - 1:-1:1
 end
 
 
-% Bn(1) + 1*exp(2*mp(15)*hp(15))
-% 
-% q = -1;
-% z = (0:0.001:hp(15))';
-% y15 = q*exp(mp(15)*z) + Bn(q)*exp(-mp(15)*z);
-% % y15(:,2) = y{15,1}(q,z);
-% disp("An = ");
-% disp(q);
-% disp("Bn = ");
-% disp(Bn(1));
-% y{15,1}(q,0.438);
-% z = (0:0.001:hp(14))';
-% y14 = y{14,1}(q,z)
-% y{15,1}(q,0)
-% y = [y14;y15];
 
 phi = [];
 dphi = [];
-for i = 1:length(hp)
-    if i == 1 
-        z = (0:0.001:hp(i))';
+z = (0:0.001:0.8)';
+for i = 1:length(Np)
+    if i == 1
+        temp = y{i,1}(q,z(z >= 0 & z < zp(1)));
+        dtemp = dy{i,1}(q,z(z >= 0 & z < zp(1)));
+    elseif i == length(Np)
+        temp = y{i,1}(q,z(z >= zp(i-1) & z <= zp(i)) - zp(i-1));
+        dtemp = dy{i,1}(q,z(z >= zp(i-1) & z <= zp(i)) - zp(i-1));
     else
-        z = (0.001:0.001:hp(i))';
+                temp = y{i,1}(q,z(z >= zp(i-1) & z < zp(i)) - zp(i-1));
+        dtemp = dy{i,1}(q,z(z >= zp(i-1) & z < zp(i)) - zp(i-1));
     end
-    temp = y{i,1}(q,z);
-    dtemp = dy{i,1}(q,z);
     phi = [phi;temp];
     dphi = [dphi;temp];
 end
 
 
 
-figure(3)
-tiledlayout(2,1)
-nexttile
-plot(phi);
-nexttile
-plot(dphi);
+phi_end = phi;
+save('phi_end.mat',"phi_end");

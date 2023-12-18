@@ -47,7 +47,7 @@ ylabel('NV频率');
 function [density] = densityDistribution(depth)
 % 使用sigmoid函数产生密度分布
 % sigmoid(x) = 1 / (1 + exp(-x))
-k = 20;
+k = 10;
 z0 = 0.4;
 density = 22.5 ./ (1 + exp(-k*(depth - z0))) + 1000;
 end
@@ -61,7 +61,7 @@ function [nv] = nvFrequency(depth, density)
 z = depth;
 % 密度分布的导数
 % densityDerivative = (1125 * exp(-10 * (z - 0.25))) ./ (exp(-10 * (z - 0.25)) + 1) .^ 2;
-k = 20;
+k = 10;
 z0 = 0.4;
 densityDerivative = 22.5 * k .* exp(-k.*(z - z0)) ./ (1 + exp(-k.*(z - z0))).^2;
 
@@ -72,7 +72,7 @@ end
 function [nvQuant] = nvQuantization(nvFreq)
 % 根据多级阈值进行自适应量化
 % 深度步长
-initial_step_size = 0.2;
+initial_step_size = 0.1;
 % 量化的阈值
 threshold = [0.005, 0.01, 0.02, 0.03, 0.04]*(max(nvFreq)-min(nvFreq));
 nvQuant = zeros(size(nvFreq));
@@ -96,6 +96,7 @@ for i = 2:length(nvFreq)
     % 量化当前深度的NV频率
     nvQuant(i) = round(nvFreq(i)/step_size) * step_size;
 end
+    nvQuant(nvQuant==0) = 0.01;
 
 end
 
