@@ -1,6 +1,6 @@
 clc;
 clear;
-
+run gen_fit_w_cp_cg.m
 depth_maxNp = 300;
 depth_factor = 70;
 for mode = 1:3
@@ -117,4 +117,4 @@ eigenfunction(3).z = 0:0.001:0.800;
 eigenfunction(3).phi = phi_mode_3;
 eigenfunction(3).dphi = dphi_mode_3;
 
-save('eigenfunction.mat', 'eigenfunction');
+save('eigenfunction_fit.mat', 'eigenfunction');

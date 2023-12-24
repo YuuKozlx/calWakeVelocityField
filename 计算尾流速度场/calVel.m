@@ -2,7 +2,7 @@ clc;
 clear;
 close;
 % load '../求解特征函数/求解所有的特征函数/eigenfunction.mat'
-load eigenfunction_fit.mat
+load '../求解特征函数/求解所有的特征函数/eigenfunction_fit.mat'
 
 a = 0.20;
 b = 0.05;

@@ -1,8 +1,8 @@
 
 % 用于使用三次样条插值拟合色散关系
 clc;clear;close;
-% load '../求解特征函数/求解所有的特征函数/eigenfunction.mat'
-load eigenfunction.mat
+load '../求解特征函数/求解所有的特征函数/eigenfunction_origin.mat'
+% load eigenfunction.mat
 
 
 k = eigenfunction(1).k;

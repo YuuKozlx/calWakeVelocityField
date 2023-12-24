@@ -2,8 +2,8 @@
 
 load '..\..\函数产生NV频率\hp.mat'
 load '..\..\函数产生NV频率\Np.mat'
-load '..\..\计算尾流速度场\cp.mat'
-load '..\..\计算尾流速度场\cg.mat'
+load '.\cp.mat'
+load '.\cg.mat'
 % load '..\..\求解色散关系\色散关系 ω_k 结果\cp.mat'
 % load '..\..\求解色散关系\色散关系 ω_k 结果\cg.mat'
 
