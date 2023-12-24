@@ -1,10 +1,3 @@
-% 由于maltab无法直接实现多维矩阵按页乘法，因此使用mtimesx工具箱进行矩阵乘法
-% mtimesx工具箱下载地址：https://ww2.mathworks.cn/matlabcentral/fileexchange/25977-mtimesx-fast-matrix-multiply-with-multi-dimensional-support
-% mtimesx工具箱安装方法：将下载的文件夹放在matlab安装目录下的toolbox文件夹下，然后在matlab命令行中输入addpath(genpath('../mtimesx'))，即可完成安装
-% mtimesx工具箱使用方法：在matlab命令行中输入help mtimesx，即可查看使用方法
-% github地址：https://github.com/cybertk/mtimesx
-addpath(genpath('../mtimesx'))
-
 % 以下程序进行了矩阵化处理,对比soluteDispersionRelation.m程序，可以发现，后者程序针对每一个kp和omega都要进行单独进行判断
 % 且针对 F = a0*a1*a2...*an 这种形式的矩阵乘法,计算ai的4个元素时首先进行判断,在进行串行计算.计算完成后,还要重组为矩阵
 % 再进行矩阵乘法计算,耗时比较长
@@ -56,7 +49,7 @@ for kp = 0.05:1:max_kp
     F = F_temp_permuted(:, :, 1, :);
 
     for j = 2:length(NNp)
-        F = mtimesx(F_temp_permuted(:, :, j, :), F);
+        F = pagemtimes(F_temp_permuted(:, :, j, :), F);
     end
 
     f12(kpindex, :) = (squeeze(F(1, 2, :)))';
