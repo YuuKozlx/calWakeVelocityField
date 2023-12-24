@@ -48,7 +48,7 @@ ylabel('NV频率');
 function [density] = densityDistribution(depth)
 % 使用sigmoid函数产生密度分布
 % sigmoid(x) = 1 / (1 + exp(-x))
-k = 50;
+k = 40;
 z0 = 0.3;
 density = 22.5 ./ (1 + exp(-k*(depth - z0))) + 1000;
 end
