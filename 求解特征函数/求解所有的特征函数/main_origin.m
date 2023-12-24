@@ -9,16 +9,16 @@ for mode = 1:3
 
         q_0 = 0.001;
         q_end = 0.001;
-        run bottom2top_TH.m
-        run top2bottom_TH.m
+        run bottom2top_TH_origin.m
+        run top2bottom_TH_origin.m
         load phi_0.mat
         load phi_end.mat
         load dphi_0.mat
         load dphi_end.mat
 
         q_end = sign(phi_0(depth_maxNp) * phi_end(depth_maxNp)) * q_end * max(abs(phi_0(depth_maxNp-100:depth_maxNp+100))) / max(abs(phi_end(depth_maxNp-100:depth_maxNp+100)));
-        run bottom2top_TH.m
-        run top2bottom_TH.m
+        run bottom2top_TH_origin.m
+        run top2bottom_TH_origin.m
         load phi_0.mat
         load phi_end.mat
         load dphi_0.mat
