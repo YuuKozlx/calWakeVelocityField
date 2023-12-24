@@ -2,14 +2,15 @@
 % clear;
 load '..\函数产生NV频率\hp.mat'
 load '..\函数产生NV频率\Np.mat'
-load '..\求解色散关系\色散关系 ω_k 结果\cp.mat'
+load '..\计算尾流速度场\cp.mat'
+% load '..\求解色散关系\色散关系 ω_k 结果\cp.mat'
 Np = Np';
 hp = hp';
 
 % k_index = 1;
 % mode = 1;
 cp0 = cp(k_index, mode+1);
-k = k_index * 1;
+k = k_index * 0.5-0.45;
 Np = Np(1:end-1);
 
 alpha = sqrt(abs(Np.^2/cp0.^2-k^2));
@@ -116,8 +117,10 @@ for i = 1:length(Np)
         dtemp = dy{i,1}(q,z(z >= zp(i-1) & z < zp(i)) - zp(i-1));
     end
     phi = [phi;temp];
-    dphi = [dphi;temp];
+    dphi = [dphi;dtemp];
 end
 
 phi_0 = phi;
+dphi_0 = dphi;
 save("phi_0.mat","phi_0");
+save("dphi_0.mat","dphi_0");

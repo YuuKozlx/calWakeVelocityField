@@ -21,21 +21,23 @@ temp_load = load('../函数产生NV频率/Np.mat'); % 量化后的NV频率数据
 Np = temp_load.Np;
 NNp = Np(1:end-1);
 NNp = NNp';
-w = 0.0000001:0.000005:0.7000001;
+w = 0.0000001:0.000005:1.5000001;
 w_repmat = repmat(w, length(NNp), 1);
 
 mpIsRe = (w_repmat > NNp);
 mpIsIm = 1 - mpIsRe;
 
-f12 = zeros(60, length(w));
+f12 = zeros(100, length(w));
 
 
 tStart = tic;
 
-kpindex = 1;
-max_kp = 100;
 
-for kp = 1:1:max_kp
+
+kpindex = 1;
+max_kp = 100.05;
+
+for kp = 0.05:1:max_kp
 
     omega = w;
 

@@ -1,3 +1,5 @@
+% 打靶法求解
+
 clc;
 clear;
 load '..\sigmoid函数产生NV频率\hp.mat'

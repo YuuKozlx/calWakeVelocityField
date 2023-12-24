@@ -29,6 +29,7 @@ title('盐水密度分布的NV频率');
 xlabel('NV频率');
 ylabel('深度');
 set(gca, 'YDir', 'reverse', 'YLim', [0, 0.8], 'XLim', [0, 1.8]);
+save('nvQuant.mat', 'nvQuant');
 
 figure(4)
 % 绘制量化后频率发生变化的深度和对应的NV频率
@@ -47,8 +48,8 @@ ylabel('NV频率');
 function [density] = densityDistribution(depth)
 % 使用sigmoid函数产生密度分布
 % sigmoid(x) = 1 / (1 + exp(-x))
-k = 10;
-z0 = 0.4;
+k = 50;
+z0 = 0.3;
 density = 22.5 ./ (1 + exp(-k*(depth - z0))) + 1000;
 end
 
@@ -61,8 +62,8 @@ function [nv] = nvFrequency(depth, density)
 z = depth;
 % 密度分布的导数
 % densityDerivative = (1125 * exp(-10 * (z - 0.25))) ./ (exp(-10 * (z - 0.25)) + 1) .^ 2;
-k = 10;
-z0 = 0.4;
+k = 40;
+z0 = 0.3;
 densityDerivative = 22.5 * k .* exp(-k.*(z - z0)) ./ (1 + exp(-k.*(z - z0))).^2;
 
 nv = sqrt(9.8*densityDerivative./density);

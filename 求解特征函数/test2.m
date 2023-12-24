@@ -1,14 +1,15 @@
+% 有限差分法求解 
 clc;
 clear;
 load '..\函数产生NV频率\hp.mat'
 load '..\函数产生NV频率\Np.mat'
-load ..\求解色散关系\'色散关系 ω_k 结果'\cp.mat
+load .. \ 求解色散关系 \ '色散关系 ω_k 结果' \ cp.mat
 Np = Np';
 hp = hp';
 
 k_index = 61;
 cp0 = cp(k_index, 2);
-k = (k_index-1)*0.5;
+k = (k_index - 1) * 0.5;
 
 % 定义边界条件
 % syms alpha;
@@ -45,12 +46,12 @@ for i = 2:Nz - 2
 
 end
 
-b = [alpha;zeros(Nz - 4, 1);beta];
+b = [alpha; zeros(Nz - 4, 1); beta];
 det(C);
 
 y = linsolve(C, b);
 figure(2)
-plot(y,zz);
+plot(y, zz);
 set(gca, 'YDir', 'reverse');
 
 % Nv频率

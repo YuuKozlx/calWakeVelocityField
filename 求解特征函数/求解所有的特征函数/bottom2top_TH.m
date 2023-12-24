@@ -1,16 +1,19 @@
-% clc;
-% clear;
-load '..\函数产生NV频率\hp.mat'
-load '..\函数产生NV频率\Np.mat'
-load '..\计算尾流速度场\cp.mat'
-% load '..\求解色散关系\色散关系 ω_k 结果\cp.mat'
+% TH法求解，从底部开始算到顶部
+
+load '..\..\函数产生NV频率\hp.mat'
+load '..\..\函数产生NV频率\Np.mat'
+load '..\..\计算尾流速度场\cp.mat'
+load '..\..\计算尾流速度场\cg.mat'
+% load '..\..\求解色散关系\色散关系 ω_k 结果\cp.mat'
+% load '..\..\求解色散关系\色散关系 ω_k 结果\cg.mat'
+
 Np = Np';
 hp = hp';
 
-% k_index = 1;
-% mode = 1;
+
 cp0 = cp(k_index, mode+1);
-k = k_index * 0.5-0.45;
+% k = k_index * 1 - 0.95;
+k = k_index * 0.05;
 Np = Np(1:end-1);
 
 alpha = sqrt(abs(Np.^2/cp0.^2-k^2));
@@ -56,13 +59,6 @@ elseif imag(mp(end)) ~= 0
 end
 
 
-i = 1;
-for z = 0:0.001:0.096
-    phi(i) = y{length(Np), 1}(q, z);
-    dphi(i) = dy{length(Np), 1}(q, z);
-    i = i + 1;
-end
-
 
 
 for i = length(Np) - 1:-1:1
@@ -99,7 +95,7 @@ for i = 1:length(Np)
         temp = y{i,1}(q,z(z >= zp(i-1) & z <= zp(i)) - zp(i-1));
         dtemp = dy{i,1}(q,z(z >= zp(i-1) & z <= zp(i)) - zp(i-1));
     else
-                temp = y{i,1}(q,z(z >= zp(i-1) & z < zp(i)) - zp(i-1));
+        temp = y{i,1}(q,z(z >= zp(i-1) & z < zp(i)) - zp(i-1));
         dtemp = dy{i,1}(q,z(z >= zp(i-1) & z < zp(i)) - zp(i-1));
     end
     phi = [phi;temp];
