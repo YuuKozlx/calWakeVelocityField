@@ -3,17 +3,14 @@
 % clear;
 load '..\..\函数产生NV频率\hp.mat'
 load '..\..\函数产生NV频率\Np.mat'
-load '..\..\计算尾流速度场\cp.mat'
-load '..\..\计算尾流速度场\cg.mat'
-% load '..\..\求解色散关系\色散关系 ω_k 结果\cp.mat'
-% load '..\..\求解色散关系\色散关系 ω_k 结果\cg.mat'
+load '..\..\求解色散关系\色散关系 ω_k 结果\cp.mat'
+load '..\..\求解色散关系\色散关系 ω_k 结果\cg.mat'
 Np = Np';
 hp = hp';
 
 
 cp0 = cp(k_index, mode + 1);
-% k = k_index * 1-0.95;
-k = k_index * 0.05;
+k = k_index * 1-0.95;
 Np = Np(1:end - 1);
 
 alpha = sqrt(abs(Np .^ 2 / cp0 .^ 2 - k ^ 2));
